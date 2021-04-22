@@ -1,0 +1,20 @@
+{
+	"name": "indexer",
+	"displayName": "Indexer",
+	"description": "Indexes colours based on ranges.",
+	"version": "0.1",
+	"author": {
+		"name": "Justinas Grigas",
+		"email": "jstn_as@protonmail.com",
+		"url": "https://github.com/jstnas/indexer"
+	},
+	"contributors": [],
+	"publilsher": "Justinas Grigas",
+	"license": "CC-BY-4.0",
+	"categories": [ "Scripts"],
+	"contributes": {
+		"scripts": [
+			{ "path": "./indexer.lua" }
+		]
+	}
+}
