@@ -51,13 +51,14 @@ function getColorIndex(color, colors)
 end
 
 -- Mouse click functions.
-function editColor(color, colors, values)
-	local index = getColorIndex(color, colors)
-	local editDialog = Dialog("Edit Color")
+function editColor(index, colors, values, adding)
+	local title = "Edit Color"
+	if adding then title = "Add Color" end
+	local editDialog = Dialog(title)
 	:color {
 		id = "color",
 		label = "Color:",
-		color = color
+		color = colors[index]
 	}
 	:slider {
 		id = "value",
@@ -78,18 +79,23 @@ function editColor(color, colors, values)
 		id = "remove",
 		text = "Remove"
 	}
+	:modify {
+		id = "remove",
+		visible = not adding
+	}
 	:show()
+	local success = false;
 	if editDialog.data.ok then
 		colors[index] = editDialog.data.color
 		values[index] = editDialog.data.value
+		success = true;
 	elseif editDialog.data.remove then
-		colors, values = removeColor(color, colors, values)
+		colors, values = removeColor(index, colors, values)
 	end
-	return colors, values
+	return colors, values, success
 end
 
-function addColor(color, colors, values)
-	local index = getColorIndex(color, colors)
+function addColor(index, colors, values)
 	-- Shift colors forwards.
 	for i = #colors, index, -1 do
 		colors[i + 1] = colors[i]
@@ -98,8 +104,7 @@ function addColor(color, colors, values)
 	return colors, values
 end
 
-function removeColor(color, colors, values)
-	local index = getColorIndex(color, colors)
+function removeColor(index, colors, values)
 	-- Shift colors back.
 	for i = index, #colors - 1 do
 		colors[i] = colors[i + 1]
@@ -141,17 +146,23 @@ function createDialog(colors, values, xPos, yPos)
 		colors = colors,
 		onclick = function(ev)
 			values = updateValues(#values, dialog.data)
-			local c, v = nil
+			local index = getColorIndex(ev.color, colors)
 			if ev.button == MouseButton.LEFT then
-				c, v = editColor(ev.color, colors, values)
+				colors, values = editColor(index, colors, values, false)
 			elseif ev.button == MouseButton.RIGHT then
-				c, v = addColor(ev.color, colors, values)
+				local success = nil
+				colors, values = addColor(index, colors, values)
+				colors, values, success = editColor(index + 1, colors, values, true)
+				-- Remove color if cancelled.
+				if not success then
+					colors, values = removeColor(index + 1, colors, values)
+				end
 			elseif ev.button == MouseButton.MIDDLE then
-				c, v = removeColor(ev.color, colors, values)
+				colors, values = removeColor(index, colors, values)
 			end
 			local b = dialog.bounds
 			dialog:close()
-			createDialog(c, v, b.x, b.y)
+			createDialog(colors, values, b.x, b.y)
 		end
 	}
 	for i = 1, #colors do

@@ -1,6 +1,6 @@
 local pc = app.pixelColor
 
-function get_color(value, colors, values)
+function getColor(value, colors, values)
 	for i = 1, #colors do
 		if value < values[i] then
 			return colors[i]
@@ -13,16 +13,16 @@ return function(colors, values)
 	local image = app.activeImage
 	local width = image.width
 	local height = image.height
-	local new_image = Image(image)
-	for it in new_image:pixels() do
+	local newImage = Image(image)
+	for it in newImage:pixels() do
 		local pixelValue = it()
 		local r = pc.rgbaR(pixelValue)
 		local g = pc.rgbaG(pixelValue)
 		local b = pc.rgbaB(pixelValue)
 		local value = (r + g + b) / 3
-		local new_color = get_color(value, colors, values).rgbaPixel
-		it(new_color)
+		local newColor = getColor(value, colors, values).rgbaPixel
+		it(newColor)
 	end
-	image:drawImage(new_image)
+	image:drawImage(newImage)
 	app.refresh()
 end

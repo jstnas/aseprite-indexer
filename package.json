@@ -2,7 +2,7 @@
 	"name": "indexer",
 	"displayName": "Indexer",
 	"description": "Indexes colours based on ranges.",
-	"version": "0.3",
+	"version": "0.4",
 	"author": {
 		"name": "Justinas Grigas",
 		"email": "jstn_as@protonmail.com",
