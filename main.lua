@@ -7,7 +7,7 @@ function init(plugin)
 		title = "Indexer",
 		group = "sprite_properties",
 		onclick = function()
-			dialog("Indexer");
+			dialog(nil, nil);
 		end
 	}
 end
