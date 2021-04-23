@@ -2,7 +2,7 @@
 	"name": "indexer",
 	"displayName": "Indexer",
 	"description": "Indexes colours based on ranges.",
-	"version": "0.1",
+	"version": "0.2",
 	"author": {
 		"name": "Justinas Grigas",
 		"email": "jstn_as@protonmail.com",
@@ -14,7 +14,7 @@
 	"categories": [ "Scripts"],
 	"contributes": {
 		"scripts": [
-			{ "path": "./indexer.lua" }
+			{ "path": "./main.lua" }
 		]
 	}
 }

@@ -1,10 +1,10 @@
-SRC = indexer.lua package.json
+SRC = ./package.json ./main.lua ./dialog.lua ./indexer.lua
 ARCHIVE = indexer.aseprite-extension
 SCRIPT_DIR = ~/.config/aseprite/scripts
 PLUGIN_DIR = ~/.config/aseprite/extensions
 
-plugin:
+plugin: clean
 	zip $(ARCHIVE) $(SRC)
 
-script:
-	cp ./indexer.lua $(SCRIPT_DIR)
+clean:
+	rm $(ARCHIVE)
